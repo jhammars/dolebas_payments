@@ -5,8 +5,9 @@ Provides payment functionality
 Takes:
 - Currency
 - Amount
-- Email
-- Processor
+- From email
+- To email
+- Payment processor
 
 Returns:
 - Message
