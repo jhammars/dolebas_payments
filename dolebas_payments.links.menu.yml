@@ -1,0 +1,7 @@
+dolebas_payments.stripe_config_form:
+  title: 'StripeConfig'
+  route_name: dolebas_payments.stripe_config_form
+  description: 'Stripe config'
+  parent: system.admin_config_system
+  weight: 99
+
