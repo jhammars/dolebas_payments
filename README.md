@@ -3,13 +3,14 @@
 Provides payment functionality
 
 Takes:
-- Currency
-- Amount
-- From email
-- To email
-- Payment processor
-- Payment id
+- Payment Currency
+- Payment Amount
+- Paument Fee Email
+- Payment Receiver Email
+- Payment Sender Email
+- Payment Processor
+- Payment Id
 
 Returns:
-- Message
-- Payment id
+- Payment Message
+- Payment Id
