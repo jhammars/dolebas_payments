@@ -5,7 +5,7 @@ Provides payment functionality
 Takes:
 - Payment Currency
 - Payment Amount
-- Paument Fee Email
+- Payment Fee Email
 - Payment Receiver Email
 - Payment Sender Email
 - Payment Processor
