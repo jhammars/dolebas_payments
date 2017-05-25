@@ -1,0 +1,11 @@
+
+dolebas_payments.stripe_config_form:
+  path: '/admin/config/stripeconfig'
+  defaults:
+    _form: '\Drupal\dolebas_payments\Form\StripeConfigForm'
+    _title: 'StripeConfigForm'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+
