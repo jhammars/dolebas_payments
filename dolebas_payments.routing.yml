@@ -9,3 +9,12 @@ dolebas_payments.stripe_config_form:
   options:
     _admin_route: TRUE
 
+
+dolebas_payments.stripe_test_form:
+  path: '/testing/stripe_test'
+  defaults:
+    _form: '\Drupal\dolebas_payments\Form\StripeTestForm'
+    _title: 'StripeTestForm'
+  requirements:
+    _access: 'TRUE'
+  
