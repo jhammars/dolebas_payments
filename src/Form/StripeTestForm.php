@@ -4,6 +4,7 @@ namespace Drupal\dolebas_payments\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Stripe\Stripe;
 
 /**
  * Class StripeTestForm.
@@ -92,6 +93,13 @@ class StripeTestForm extends FormBase {
     foreach ($form_state->getValues() as $key => $value) {
       drupal_set_message($key . ': ' . $value);
     }
+
+    $config = \Drupal::config('dolebas_payments.stripeconfig');
+    $api_key = $config->get('stripe_api_key');
+    Stripe::setApiKey($api_key);
+
+    $charge = \Stripe\Charge::create(array('amount' => $form_state->getValue('amount'), 'currency' => $form_state->getValue('currency'), 'source' => 'pk_test_sizOaYRJSKPbGhj5blDXZm1d' ));
+    //print '<pre>';print_r($charge);exit;
 
   }
 

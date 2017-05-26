@@ -16,5 +16,7 @@ dolebas_payments.stripe_test_form:
     _form: '\Drupal\dolebas_payments\Form\StripeTestForm'
     _title: 'StripeTestForm'
   requirements:
-    _access: 'TRUE'
+      _permission: 'access administration pages'
+    options:
+      _admin_route: TRUE
   
