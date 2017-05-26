@@ -8,6 +8,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 function dolebas_payments_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {
     // Main module help for the dolebas_payment module.
+
     case 'help.page.dolebas_payment':
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
