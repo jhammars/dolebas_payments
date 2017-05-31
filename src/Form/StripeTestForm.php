@@ -98,13 +98,23 @@ class StripeTestForm extends FormBase {
 
     $config = \Drupal::config('dolebas_payments.stripeconfig');
     $api_key = $config->get('stripe_api_key');
-    Stripe::setApiKey($api_key);
-    //$bal = \Stripe\Balance::retrieve();
-    $bal = Balance::retrieve();
-    //$bal_list = BalanceTransaction::all(array("limit" => 3));
-    print'<pre>';print_r($bal);exit;
+    \Stripe\Stripe::setApiKey($api_key);
+    $bal = \Stripe\Balance::retrieve();
 
-    //$charge = \Stripe\Charge::create(array('amount' => $form_state->getValue('amount'), 'currency' => $form_state->getValue('currency'), 'source' => 'pk_test_sizOaYRJSKPbGhj5blDXZm1d'));
+    //$bal_list = BalanceTransaction::all(array("limit" => 3));
+    //print'<pre>';print_r($bal);exit;
+
+    $token = \Stripe\Token::create(array(
+      "card" => array(
+        "number" => "4242424242424242",
+        "exp_month" => 5,
+        "exp_year" => 2018,
+        "cvc" => "314"
+      )
+    ));
+    //print'<pre>';print_r($token->id);exit;
+
+    $charge = \Stripe\Charge::create(array('amount' => $form_state->getValue('amount'), 'currency' => $form_state->getValue('currency'), 'source' => $token));
     //print '<pre>';print_r($charge);exit;
 
   }

@@ -17,6 +17,6 @@ dolebas_payments.stripe_test_form:
     _title: 'StripeTestForm'
   requirements:
       _permission: 'access administration pages'
-    options:
-      _admin_route: TRUE
+  options:
+    _admin_route: TRUE
   
