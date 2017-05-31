@@ -28,8 +28,13 @@ class StripeTestForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form['currency'] = [
-      '#type' => 'textfield',
+      '#type' => 'radios',
       '#title' => $this->t('Currency'),
+      '#options' => array(
+        'usd' => 'USD',
+        'sek' => 'SEK',
+      ),
+      '#default_value' => 'sek',
       '#maxlength' => 64,
       '#size' => 64,
     ];
@@ -59,8 +64,13 @@ class StripeTestForm extends FormBase {
       '#description' => $this->t('Sender Email'),
     ];
     $form['processor'] = [
-      '#type' => 'textfield',
+      '#type' => 'radios',
       '#title' => $this->t('Processor'),
+      '#options' => array(
+        'hosted' => 'Hosted',
+        'redirect' => 'Redirect'
+      ),
+      '#default_value' => 'redirect',
       '#description' => $this->t('Processor'),
       '#maxlength' => 64,
       '#size' => 64,
