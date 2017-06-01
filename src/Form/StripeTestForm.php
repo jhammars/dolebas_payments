@@ -42,35 +42,40 @@ class StripeTestForm extends FormBase {
       '#type' => 'number',
       '#title' => $this->t('Amount'),
       '#description' => $this->t('Amount'),
+      '#default_value' => 123,
     ];
     $form['fee'] = [
       '#type' => 'number',
       '#title' => $this->t('Fee'),
       '#description' => $this->t('Fee'),
+      '#default_value' => 123,
     ];
     $form['fee_email'] = [
       '#type' => 'email',
       '#title' => $this->t('Fee Email'),
       '#description' => $this->t('Fee Email'),
+      '#default_value' => 'example@example.com',
     ];
     $form['receiver_email'] = [
       '#type' => 'email',
       '#title' => $this->t('Receiver Email'),
       '#description' => $this->t('Receiver Email'),
+      '#default_value' => 'example@example.com',
     ];
     $form['sender_email'] = [
       '#type' => 'email',
       '#title' => $this->t('Sender Email'),
       '#description' => $this->t('Sender Email'),
+      '#default_value' => 'example@example.com',
     ];
     $form['processor'] = [
       '#type' => 'radios',
       '#title' => $this->t('Processor'),
       '#options' => array(
-        'hosted' => 'Hosted',
-        'redirect' => 'Redirect'
+        'stripe_xx' => 'Stripe/XX',
+        'paypal_xx' => 'PayPal/XX'
       ),
-      '#default_value' => 'redirect',
+      '#default_value' => 'stripe_xx',
       '#description' => $this->t('Processor'),
       '#maxlength' => 64,
       '#size' => 64,
@@ -81,10 +86,11 @@ class StripeTestForm extends FormBase {
       '#description' => $this->t('Payment Id'),
       '#maxlength' => 64,
       '#size' => 64,
+      '#default_value' => 123,
     ];
     $form['submit'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Submit'),
+      '#value' => $this->t('Submit backend input parameters'),
     ];
 
     return $form;
@@ -106,6 +112,14 @@ class StripeTestForm extends FormBase {
       drupal_set_message($key . ': ' . $value);
     }
 
+    // get payment_message from somewhere
+    $payment_message = 'This is a message from dolebas_payments';
+    drupal_set_message(''. print_r($payment_message, TRUE) .'');
+
+    // get payment_id from form input value
+    $payment_id = $form_state->getValue(['payment_id']);
+    drupal_set_message(''. print_r($payment_id, TRUE) .'');
+
     $config = \Drupal::config('dolebas_payments.stripeconfig');
     $api_key = $config->get('stripe_api_key');
     \Stripe\Stripe::setApiKey($api_key);
@@ -124,7 +138,7 @@ class StripeTestForm extends FormBase {
     ));
     //print'<pre>';print_r($token->id);exit;
 
-    $charge = \Stripe\Charge::create(array('amount' => $form_state->getValue('amount'), 'currency' => $form_state->getValue('currency'), 'source' => $token));
+    //$charge = \Stripe\Charge::create(array('amount' => $form_state->getValue('amount'), 'currency' => $form_state->getValue('currency'), 'source' => $token));
     //print '<pre>';print_r($charge);exit;
 
   }
