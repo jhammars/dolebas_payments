@@ -138,6 +138,9 @@ class StripeTestForm extends FormBase {
     ));
     //print'<pre>';print_r($token->id);exit;
 
+
+    $charge = \Stripe\Charge::create(array('amount' => $form_state->getValue('amount'), 'currency' => $form_state->getValue('currency'), 'source' => $token));
+
     //$charge = \Stripe\Charge::create(array('amount' => $form_state->getValue('amount'), 'currency' => $form_state->getValue('currency'), 'source' => $token));
     //print '<pre>';print_r($charge);exit;
 
