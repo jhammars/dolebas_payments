@@ -42,13 +42,13 @@ class StripeTestForm extends FormBase {
       '#type' => 'number',
       '#title' => $this->t('Amount'),
       '#description' => $this->t('Amount'),
-      '#default_value' => 123,
+      '#default_value' => 1000,
     ];
     $form['fee'] = [
       '#type' => 'number',
       '#title' => $this->t('Fee'),
       '#description' => $this->t('Fee'),
-      '#default_value' => 123,
+      '#default_value' => 10,
     ];
     $form['fee_email'] = [
       '#type' => 'email',
@@ -72,10 +72,11 @@ class StripeTestForm extends FormBase {
       '#type' => 'radios',
       '#title' => $this->t('Processor'),
       '#options' => array(
-        'stripe_xx' => 'Stripe/XX',
+        'stripe_hosted_card' => 'Stripe/Card (hosted)',
+        'stripe_3dsecure' => 'Stripe/3dSecure (redirect)',
         'paypal_xx' => 'PayPal/XX'
       ),
-      '#default_value' => 'stripe_xx',
+      '#default_value' => 'stripe_hosted_card',
       '#description' => $this->t('Processor'),
       '#maxlength' => 64,
       '#size' => 64,
@@ -120,11 +121,24 @@ class StripeTestForm extends FormBase {
     $payment_id = $form_state->getValue(['payment_id']);
     drupal_set_message(''. print_r($payment_id, TRUE) .'');
 
+    if ($form_state->getValue('processor') == 'stripe_hosted_card') {
+      $this->stripeHostedTest($form, $form_state);
+    }
+    elseif ($form_state->getValue('processor') == 'stripe_3dsecure') {
+      $this->stripe3dsecure($form, $form_state);
+    }
+    elseif($form_state->getValue('processor') == 'paypal_xx') {
+      $this->paypalTest($form, $form_state);
+    }
+
+  }
+
+  private function stripeHostedTest(array &$form, FormStateInterface $form_state) {
     $config = \Drupal::config('dolebas_payments.stripeconfig');
     $api_key = $config->get('stripe_api_key');
     \Stripe\Stripe::setApiKey($api_key);
-    $bal = \Stripe\Balance::retrieve();
 
+    //$bal = \Stripe\Balance::retrieve();
     //$bal_list = BalanceTransaction::all(array("limit" => 3));
     //print'<pre>';print_r($bal);exit;
 
@@ -143,7 +157,14 @@ class StripeTestForm extends FormBase {
 
     //$charge = \Stripe\Charge::create(array('amount' => $form_state->getValue('amount'), 'currency' => $form_state->getValue('currency'), 'source' => $token));
     //print '<pre>';print_r($charge);exit;
+  }
 
+  private function paypalTest(array &$form, FormStateInterface $form_state) {
+    //@todo
+  }
+
+  private function stripe3dsecure($form, $form_state) {
+    //@todo
   }
 
 }
