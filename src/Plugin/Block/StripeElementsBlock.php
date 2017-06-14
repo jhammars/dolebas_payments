@@ -24,24 +24,15 @@ class StripeElementsBlock extends BlockBase {
       'library' => array(
         'dolebas_payments/stripe-elements-library'
       ),
-//      'drupalSettings' => array(
-//        'nid' => $nid,
-//        'token' => $token,
-//        'uuid' => $uuid,
-//        'project_id' => $project_id
-//      )
+      'drupalSettings' => array(
+        'node_type' => 'video',
+        'price' => 1111,
+        'currency' => 'usd',
+        'stripe_publishable_key' => 'pk_test_sizOaYRJSKPbGhj5blDXZm1d'
+      )
     );
     $build['#cache']['max-age'] = 0;
     return $build;
-    return array(
-      '#type' => 'inline_template',
-      '#theme' => 'stripe_elements',
-      '#attached' => array(
-        'library' => array(
-          'dolebas_payments/stripe-elements-library'
-        ),
-      ),
-    );
   }
 
 }
