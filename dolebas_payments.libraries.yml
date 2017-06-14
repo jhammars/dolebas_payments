@@ -1,0 +1,7 @@
+stripe-elements-library:
+  css:
+    theme:
+      css/stripe-elements.css: {}
+  js:
+    //js.stripe.com/v3/: { type: external }
+    js/stripe-elements.js: {}

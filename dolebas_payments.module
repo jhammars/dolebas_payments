@@ -22,10 +22,10 @@ function dolebas_payments_help($route_name, RouteMatchInterface $route_match) {
 /**
  * Implements hook_theme().
  */
-function dolebas_payment_theme() {
+function dolebas_payments_theme() {
   return [
-    'dolebas_payment' => [
-      'template' => 'dolebas_payment',
+    'stripe_elements' => [
+      'template' => 'stripe_elements',
       'render element' => 'children',
     ],
   ];
