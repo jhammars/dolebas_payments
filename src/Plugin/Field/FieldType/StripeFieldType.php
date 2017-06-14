@@ -125,7 +125,7 @@ class StripeFieldType extends FieldItemBase {
   }
 
   public function preSave() {
-    print $this->get('value')->getValue();exit;
+    //print $this->get('value')->getValue();exit;
     parent::preSave();
   }
 
