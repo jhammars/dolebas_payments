@@ -54,8 +54,34 @@ form.addEventListener('submit', function(event) {
         } else {
             // Send the token to your server
             console.log(result.token.id);
+            getCsrfToken(function (csrfToken) {
+                postNode(csrfToken, 'video', result.token.id);
+            });
 
-            //stripeTokenHandler(result.token);
         }
     });
 });
+
+function postNode(csrfToken, node_type, stripe_token) {
+    var body = {
+        "data": {
+            "type": "node--video",
+            "attributes": {
+                "title": "My test title",
+                "field_stripe_token": stripe_token
+            }
+        }
+    };
+    jQuery.ajax({
+        url: 'http://localhost/videofilter/jsonapi/node/video?_format=json&token=' + csrfToken,
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/vnd.api+json',
+            'Accept': 'application/vnd.api+json'
+        },
+        data: JSON.stringify(body),
+        success: function (body) {
+            console.log(body);
+        }
+    });
+}
