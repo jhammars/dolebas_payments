@@ -68,6 +68,7 @@ form.addEventListener('submit', function(event) {
     });
 });
 
+// Create transaction node with JSON API
 function postNode(csrfToken, node_type, stripe_token) {
     var body = {
         "data": {
@@ -86,7 +87,7 @@ function postNode(csrfToken, node_type, stripe_token) {
         }
     };
     jQuery.ajax({
-        url: 'http://localhost/videofilter/jsonapi/node/video?_format=json&token=' + csrfToken,
+        url: '/jsonapi/node/' + node_type + '?_format=json&token=' + csrfToken, // TODO: Add if $host = \Drupal::request()->getHost();
         method: 'POST',
         headers: {
             'Content-Type': 'application/vnd.api+json',
@@ -97,4 +98,14 @@ function postNode(csrfToken, node_type, stripe_token) {
             console.log(body);
         }
     });
+}
+
+// Get JSON API token
+function getCsrfToken(callback) {
+    jQuery
+        .get(Drupal.url('session/token'))
+        .done(function (data) {
+            var csrfToken = data;
+            callback(csrfToken);
+        });
 }
