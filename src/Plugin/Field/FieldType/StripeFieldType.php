@@ -129,4 +129,19 @@ class StripeFieldType extends FieldItemBase {
     parent::preSave();
   }
 
+  public function postSave($update) {
+    $entity = $this->getEntity();
+    $uuid = $entity->uuid();
+
+    $config = \Drupal::config('dolebas_payments.stripeconfig');
+    $api_key = $config->get('stripe_api_key');
+    $chargetoken = $entity->field_stripe_token->value;
+    $currency = $entity->field_currency->value;
+    $amount = $entity->field_amount->value;
+    \Stripe\Stripe::setApiKey($api_key);
+    \Stripe\Charge::create(array('amount' => $amount, 'currency' => $currency, 'source' => $chargetoken));
+
+    parent::postSave($update);
+  }
+
 }

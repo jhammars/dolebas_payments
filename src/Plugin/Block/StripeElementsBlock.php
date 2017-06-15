@@ -26,7 +26,7 @@ class StripeElementsBlock extends BlockBase {
       ),
       'drupalSettings' => array(
         'node_type' => 'video',
-        'price' => 1111,
+        'amount' => 1111,
         'currency' => 'usd',
         'stripe_publishable_key' => 'pk_test_sizOaYRJSKPbGhj5blDXZm1d'
       )
