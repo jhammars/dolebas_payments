@@ -1,0 +1,14 @@
+# node.type.dolebas_payments_dolebas_transaction.yml
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dolebas_payments
+name: 'Dolebas Transaction'
+type: dolebas_transaction
+description: 'Content type for transactions'
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: true

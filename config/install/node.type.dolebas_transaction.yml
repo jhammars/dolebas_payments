@@ -1,0 +1,15 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - dolebas_payments
+_core:
+  default_config_hash: lJ8sqUvZVwcUGbnw1EKIvrN3xPdfST7x5V6BAzW3z_I
+name: 'Dolebas Transaction'
+type: dolebas_transaction
+description: 'Content type for transactions'
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: true

@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dolebas_transaction
+    - node.type.dolebas_transaction
+  module:
+    - dolebas_payments
+id: node.dolebas_transaction.field_dolebas_transaction
+field_name: field_dolebas_transaction
+entity_type: node
+bundle: dolebas_transaction
+label: 'Dolebas Transaction'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: ''
+default_value_callback: ''
+settings: {  }
+field_type: dolebas_transaction_field_type

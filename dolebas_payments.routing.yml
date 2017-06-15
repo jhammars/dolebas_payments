@@ -9,7 +9,6 @@ dolebas_payments.stripe_config_form:
   options:
     _admin_route: TRUE
 
-
 dolebas_payments.stripe_test_form:
   path: '/testing/stripe_test'
   defaults:
@@ -20,3 +19,10 @@ dolebas_payments.stripe_test_form:
   options:
     _admin_route: TRUE
   
+dolebas_payments.testcharge:
+  path: '/test-charge'
+  defaults:
+    _controller: '\Drupal\dolebas_payments\Controller\TestChargeController::testCharge'
+    _title: 'test-charge'
+  requirements:
+    _permission: 'access content'
