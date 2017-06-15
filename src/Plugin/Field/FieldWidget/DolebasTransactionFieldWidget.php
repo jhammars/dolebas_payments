@@ -7,17 +7,17 @@ use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Plugin implementation of the 'stripe_widget' widget.
+ * Plugin implementation of the 'dolebas_transaction_field_widget' widget.
  *
  * @FieldWidget(
- *   id = "stripe_widget",
- *   label = @Translation("Stripe widget"),
+ *   id = "dolebas_transaction_field_widget",
+ *   label = @Translation("Dolebas Transaction field widget"),
  *   field_types = {
- *     "stripe_field_type"
+ *     "dolebas_transaction_field_type"
  *   }
  * )
  */
-class StripeWidget extends WidgetBase {
+class DolebasTransactionFieldWidget extends WidgetBase {
 
   /**
    * {@inheritdoc}

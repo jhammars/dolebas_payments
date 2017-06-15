@@ -9,17 +9,17 @@ use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Plugin implementation of the 'stripe_formatter' formatter.
+ * Plugin implementation of the 'dolebas_transaction_field_formatter' formatter.
  *
  * @FieldFormatter(
- *   id = "stripe_formatter",
- *   label = @Translation("Stripe formatter"),
+ *   id = "dolebas_transaction_field_formatter",
+ *   label = @Translation("Dolebas Transaction Field Formatter"),
  *   field_types = {
- *     "stripe_field_type"
+ *     "dolebas_transaction_field_type"
  *   }
  * )
  */
-class StripeFormatter extends FormatterBase {
+class DolebasTransactionFieldFormatter extends FormatterBase {
 
   /**
    * {@inheritdoc}

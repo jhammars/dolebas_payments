@@ -61,7 +61,7 @@ form.addEventListener('submit', function(event) {
             // Send the token to your server
             console.log(result.token.id);
             getCsrfToken(function (csrfToken) {
-                postNode(csrfToken, 'video', result.token.id);
+                postNode(csrfToken, 'dolebas_transaction', result.token.id);
             });
 
         }
