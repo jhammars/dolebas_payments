@@ -1,8 +1,14 @@
-
+//(function ($, Drupal) {
+//    Drupal.behaviors.stripeBehavior = {
+//        attach: function (context, settings) {
+//
+//        }
+//    };
+//})(jQuery, Drupal);
 
 // Create a Stripe client
-var stripe = Stripe('pk_test_sizOaYRJSKPbGhj5blDXZm1d');
-
+var stripe = Stripe(drupalSettings.stripe_publishable_key);
+//console.log(drupalSettings.stripe_publishable_key);
 // Create an instance of Elements
 var elements = stripe.elements();
 
@@ -65,10 +71,17 @@ form.addEventListener('submit', function(event) {
 function postNode(csrfToken, node_type, stripe_token) {
     var body = {
         "data": {
-            "type": "node--video",
+            "type": "node--" + node_type,
             "attributes": {
                 "title": "My test title",
-                "field_stripe_token": stripe_token
+                "field_stripe_token": stripe_token,
+                "field_currency": {
+                    "value": drupalSettings.currency
+                },
+                "field_amount": {
+                    "value": drupalSettings.amount,
+                    "format": "number"
+                }
             }
         }
     };
