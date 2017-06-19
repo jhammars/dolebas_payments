@@ -124,15 +124,11 @@ class DolebasTransactionFieldType extends FieldItemBase {
 //    return $value === NULL || $value === '';
 //  }
 
-//  public function preSave() {
-//    //print $this->get('value')->getValue();exit;
-//    //print'<pre>';print_r('hello');exit;
-//    parent::preSave();
-//  }
-
-  public function postSave($update) {
+  public function preSave() {
+    //print $this->get('value')->getValue();exit;
+    //print'<pre>';print_r('hello');exit;
+    //parent::preSave();
     $entity = $this->getEntity();
-    //$uuid = $entity->uuid();
 
     $chargetoken = $entity->field_stripe_token->value;
     $currency = $entity->field_currency->value;
@@ -142,7 +138,19 @@ class DolebasTransactionFieldType extends FieldItemBase {
     $api_key = $config->get('stripe_api_key');
     \Stripe\Stripe::setApiKey($api_key);
 
-    \Stripe\Charge::create(array('amount' => $amount, 'currency' => $currency, 'source' => $chargetoken));
+    $charge = \Stripe\Charge::create(array('amount' => $amount, 'currency' => $currency, 'source' => $chargetoken));
+
+    $chargestatus = $charge->status;
+
+    $entity->field_status->value = $chargestatus;
+
+  }
+
+  public function postSave($update) {
+    //$entity = $this->getEntity();
+    //$uuid = $entity->uuid();
+
+
     //\Stripe\Charge::create(array('amount' => 1212, 'currency' => 'sek', 'source' => 'tok_1AV28rK8Wzv9nBKytRPnJueS'));
 
     //print'<pre>';print_r($chargetoken);exit;

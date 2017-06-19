@@ -4,8 +4,8 @@ dependencies:
   module:
     - dolebas_payments
     - node
-id: node.field_dolebas_transaction
-field_name: field_dolebas_transaction
+id: node.field_transaction_action
+field_name: field_transaction_action
 entity_type: node
 type: dolebas_transaction_field_type
 settings:

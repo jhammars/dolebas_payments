@@ -21,6 +21,9 @@ class TestChargeController extends ControllerBase {
 //
 //    \Stripe\Charge::create(array('amount' => 4321, 'currency' => 'sek', 'source' => 'tok_1AV1eiK8Wzv9nBKyXaG4jJMa'));
 
+    $uuid_service = \Drupal::service('uuid');
+    $random_uuid = $uuid_service->generate();
+
     $build['stripe_elements_block']['#type'] = 'inline_template';
     $build['stripe_elements_block']['#theme'] = 'stripe_elements';
     $build['stripe_elements_block']['#attached'] = array(
@@ -30,7 +33,8 @@ class TestChargeController extends ControllerBase {
       'drupalSettings' => array(
         'amount' => 1234,
         'currency' => 'usd',
-        'stripe_publishable_key' => 'pk_test_sizOaYRJSKPbGhj5blDXZm1d'
+        'stripe_publishable_key' => 'pk_test_sizOaYRJSKPbGhj5blDXZm1d',
+        'transaction_uuid' => $random_uuid
       )
     );
     $build['#cache']['max-age'] = 0;

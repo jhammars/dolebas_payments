@@ -75,6 +75,7 @@ function postNode(csrfToken, node_type, stripe_token) {
             "type": "node--" + node_type,
             "attributes": {
                 "title": "My test title",
+                "uuid": drupalSettings.transaction_uuid,
                 "field_stripe_token": stripe_token,
                 "field_currency": {
                     "value": drupalSettings.currency
@@ -87,7 +88,7 @@ function postNode(csrfToken, node_type, stripe_token) {
         }
     };
     jQuery.ajax({
-        url: '/jsonapi/node/' + node_type + '?_format=json&token=' + csrfToken, // TODO: Add if $host = \Drupal::request()->getHost();
+        url: '/jsonapi/node/' + node_type + '?_format=json&token=' + csrfToken,
         method: 'POST',
         headers: {
             'Content-Type': 'application/vnd.api+json',
@@ -96,6 +97,20 @@ function postNode(csrfToken, node_type, stripe_token) {
         data: JSON.stringify(body),
         success: function (body) {
             console.log(body);
+
+            var my_json = jQuery.ajax({
+                url: "/jsonapi/node/dolebas_transaction/" + drupalSettings.transaction_uuid,
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/vnd.api+json'
+                },
+                data: JSON.stringify(body),
+                success: function (body) {
+                    console.log(body);
+                    document.getElementById("ajax-target").innerHTML = "Payment " + body.data.attributes.field_status;
+                }
+            });
+
         }
     });
 }

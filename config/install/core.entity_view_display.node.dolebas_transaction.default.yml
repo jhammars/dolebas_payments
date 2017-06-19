@@ -1,0 +1,62 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.dolebas_transaction.field_amount
+    - field.field.node.dolebas_transaction.field_currency
+    - field.field.node.dolebas_transaction.field_status
+    - field.field.node.dolebas_transaction.field_stripe_token
+    - field.field.node.dolebas_transaction.field_transaction_action
+    - node.type.dolebas_transaction
+  module:
+    - dolebas_payments
+    - user
+id: node.dolebas_transaction.default
+targetEntityType: node
+bundle: dolebas_transaction
+mode: default
+content:
+  field_amount:
+    weight: 104
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_currency:
+    weight: 103
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_status:
+    weight: 105
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_stripe_token:
+    weight: 102
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_transaction_action:
+    weight: 101
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: dolebas_transaction_field_formatter
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden: {  }
