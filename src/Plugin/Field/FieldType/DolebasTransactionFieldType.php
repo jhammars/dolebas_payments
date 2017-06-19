@@ -134,9 +134,9 @@ class DolebasTransactionFieldType extends FieldItemBase {
     $currency = $entity->field_currency->value;
     $amount = $entity->field_amount->value;
 
-    $config = \Drupal::config('dolebas_payments.stripeconfig');
-    $api_key = $config->get('stripe_api_key');
-    \Stripe\Stripe::setApiKey($api_key);
+    $config = \Drupal::config('dolebas_payments.api_keys');
+    $stripe_api_sk = $config->get('stripe_api_sk');
+    \Stripe\Stripe::setApiKey($stripe_api_sk);
 
     $charge = \Stripe\Charge::create(array('amount' => $amount, 'currency' => $currency, 'source' => $chargetoken));
 
@@ -146,18 +146,9 @@ class DolebasTransactionFieldType extends FieldItemBase {
 
   }
 
-  public function postSave($update) {
-    //$entity = $this->getEntity();
-    //$uuid = $entity->uuid();
-
-
-    //\Stripe\Charge::create(array('amount' => 1212, 'currency' => 'sek', 'source' => 'tok_1AV28rK8Wzv9nBKytRPnJueS'));
-
-    //print'<pre>';print_r($chargetoken);exit;
-    //drupal_set_message(''. print_r($api_key, TRUE) .'');
-
-
-    //parent::postSave($update);
-  }
+//  public function postSave($update) {
+//
+//    //parent::postSave($update);
+//  }
 
 }

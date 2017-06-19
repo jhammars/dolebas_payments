@@ -1,9 +1,9 @@
 
-dolebas_payments.stripe_config_form:
-  path: '/admin/config/stripeconfig'
+dolebas_payments.api_keys_config_form:
+  path: '/admin/config/api-keys'
   defaults:
-    _form: '\Drupal\dolebas_payments\Form\StripeConfigForm'
-    _title: 'StripeConfigForm'
+    _form: '\Drupal\dolebas_payments\Form\ApiKeysConfigForm'
+    _title: 'ApiKeysConfigForm'
   requirements:
     _permission: 'access administration pages'
   options:

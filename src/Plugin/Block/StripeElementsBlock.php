@@ -18,6 +18,10 @@ class StripeElementsBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
+
+    $config = \Drupal::config('dolebas_payments.api_keys');
+    $stripe_api_pk = $config->get('stripe_api_pk');
+
     $build['stripe_elements_block']['#type'] = 'inline_template';
     $build['stripe_elements_block']['#theme'] = 'stripe_elements';
     $build['stripe_elements_block']['#attached'] = array(
@@ -28,7 +32,7 @@ class StripeElementsBlock extends BlockBase {
         'node_type' => 'video',
         'amount' => 1111,
         'currency' => 'usd',
-        'stripe_publishable_key' => 'pk_test_sizOaYRJSKPbGhj5blDXZm1d'
+        'stripe_publishable_key' => $stripe_api_pk
       )
     );
     $build['#cache']['max-age'] = 0;

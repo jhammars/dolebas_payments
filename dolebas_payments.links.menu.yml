@@ -1,7 +1,7 @@
-dolebas_payments.stripe_config_form:
-  title: 'StripeConfig'
-  route_name: dolebas_payments.stripe_config_form
-  description: 'Stripe config'
+dolebas_payments.api_keys_config_form:
+  title: 'ApiKeysConfigForm'
+  route_name: dolebas_payments.api_keys_config_form
+  description: 'API keys config form'
   parent: system.admin_config_system
   weight: 99
 

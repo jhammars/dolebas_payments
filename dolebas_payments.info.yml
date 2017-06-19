@@ -2,5 +2,5 @@ name: Dolebas Payments
 type: module
 description: Custom payment code
 core: 8.x
-configure: dolebas_payments.stripe_config_form
+configure: dolebas_payments.api_keys_config_form
 package: Custom

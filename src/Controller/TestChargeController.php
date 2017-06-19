@@ -14,12 +14,8 @@ class TestChargeController extends ControllerBase {
    */
   public function testCharge() {
 
-//    $config = \Drupal::config('dolebas_payments.stripeconfig');
-//    $api_key = $config->get('stripe_api_key');
-//    \Stripe\Stripe::setApiKey($api_key);
-////    \Stripe\Charge::create(array('amount' => 4321, 'currency' => 'sek', 'source' => 'tok_1AV1P9K8Wzv9nBKy3eFOU5XX'));
-//
-//    \Stripe\Charge::create(array('amount' => 4321, 'currency' => 'sek', 'source' => 'tok_1AV1eiK8Wzv9nBKyXaG4jJMa'));
+    $config = \Drupal::config('dolebas_payments.api_keys');
+    $stripe_api_pk = $config->get('stripe_api_pk');
 
     $uuid_service = \Drupal::service('uuid');
     $random_uuid = $uuid_service->generate();
@@ -33,7 +29,7 @@ class TestChargeController extends ControllerBase {
       'drupalSettings' => array(
         'amount' => 1234,
         'currency' => 'usd',
-        'stripe_publishable_key' => 'pk_test_sizOaYRJSKPbGhj5blDXZm1d',
+        'stripe_publishable_key' => $stripe_api_pk,
         'transaction_uuid' => $random_uuid
       )
     );
