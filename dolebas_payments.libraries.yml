@@ -5,3 +5,13 @@ stripe-elements-library:
   js:
     //js.stripe.com/v3/: { type: external }
     js/stripe-elements.js: {}
+
+stripe-checkout:
+  header: false
+#  css:
+#    theme:
+#      css/xx-css.css: {}
+  js:
+    https://checkout.stripe.com/checkout.js:
+      type: external
+    js/stripe-checkout.js: {}

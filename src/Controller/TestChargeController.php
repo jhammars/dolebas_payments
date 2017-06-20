@@ -21,10 +21,12 @@ class TestChargeController extends ControllerBase {
     $random_uuid = $uuid_service->generate();
 
     $build['stripe_elements_block']['#type'] = 'inline_template';
-    $build['stripe_elements_block']['#theme'] = 'stripe_elements';
+    //$build['stripe_elements_block']['#theme'] = 'stripe_elements';
+    $build['stripe_elements_block']['#theme'] = 'stripe_checkout';
     $build['stripe_elements_block']['#attached'] = array(
       'library' => array(
-        'dolebas_payments/stripe-elements-library'
+        //'dolebas_payments/stripe-elements-library'
+        'dolebas_payments/stripe-checkout'
       ),
       'drupalSettings' => array(
         'amount' => 1234,
