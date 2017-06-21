@@ -140,9 +140,9 @@ class DolebasTransactionFieldType extends FieldItemBase {
 
     $charge = \Stripe\Charge::create(array('amount' => $amount, 'currency' => $currency, 'source' => $chargetoken));
 
-    $chargestatus = $charge->status;
+    //$chargestatus = $charge->status;
 
-    $entity->field_status->value = $chargestatus;
+    $entity->field_status->value = $charge->status;
 
   }
 
