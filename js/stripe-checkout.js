@@ -20,6 +20,7 @@
                                     "title": "My test title",
                                     "uuid": drupalSettings.transaction_uuid,
                                     "field_stripe_token": token.id,
+                                    "field_dolebas_parent_reference": drupalSettings.parent_nid,
                                     "field_currency": {
                                         "value": drupalSettings.currency
                                     },
@@ -41,7 +42,7 @@
                             data: JSON.stringify(body),
                             success: function (body) {
                                 console.log(body);
-                                var my_json = jQuery.ajax({
+                                jQuery.ajax({
                                     url: "/jsonapi/node/dolebas_transaction/" + drupalSettings.transaction_uuid,
                                     method: 'GET',
                                     headers: {
@@ -50,7 +51,10 @@
                                     data: JSON.stringify(body),
                                     success: function (body) {
                                         console.log(body);
-                                        document.getElementById("ajax-target").innerHTML = "Payment " + body.data.attributes.field_status;
+                                        // Remove submit payment button from DOM after receiving payment confirmation
+                                        document.getElementById( "customButton" ).remove();
+                                        // Insert payment confirmation message to DOM
+                                        document.getElementById( "ajax-target" ).innerHTML = "Payment " + body.data.attributes.field_status;
                                     }
                                 });
                             }
@@ -69,11 +73,11 @@
             document.getElementById('customButton').addEventListener('click', function(e) {
                 // Open Checkout with further options:
                 handler.open({
-                    name: 'Dolebas',
-                    description: '2 widgets',
-                    zipCode: true,
-                    currency: 'sek',
-                    amount: 2000
+                    name: 'Custom text1',
+                    description: 'Custom text2',
+                    zipCode: false,
+                    currency: drupalSettings.currency,
+                    amount: drupalSettings.amount
                 });
                 e.preventDefault();
             });
