@@ -17,7 +17,7 @@
                             "data": {
                                 "type": "node--dolebas_transaction",
                                 "attributes": {
-                                    "title": "My test title",
+                                    "title": "Dolebas Transaction",
                                     "uuid": drupalSettings.transaction_uuid,
                                     "field_stripe_token": token.id,
                                     "field_dolebas_parent_reference": drupalSettings.parent_nid,
