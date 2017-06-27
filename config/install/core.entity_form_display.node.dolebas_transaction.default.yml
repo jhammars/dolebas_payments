@@ -2,15 +2,20 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.dolebas_transaction.field_amount
-    - field.field.node.dolebas_transaction.field_currency
-    - field.field.node.dolebas_transaction.field_status
-    - field.field.node.dolebas_transaction.field_stripe_token
-    - field.field.node.dolebas_transaction.field_transaction_action
+    - field.field.node.dolebas_transaction.field_dolebas_trans_action
+    - field.field.node.dolebas_transaction.field_dolebas_trans_amount
+    - field.field.node.dolebas_transaction.field_dolebas_trans_charge_token
+    - field.field.node.dolebas_transaction.field_dolebas_trans_currency
+    - field.field.node.dolebas_transaction.field_dolebas_trans_parent_ref
+    - field.field.node.dolebas_transaction.field_dolebas_trans_processor
+    - field.field.node.dolebas_transaction.field_dolebas_trans_status
+    - field.field.node.dolebas_transaction.field_dolebas_trans_type
     - node.type.dolebas_transaction
   module:
     - dolebas_payments
     - path
+_core:
+  default_config_hash: Tn9nh3VptUnrxcowyPhSW_y2OQZr1k09Lvqci5mI7gY
 id: node.dolebas_transaction.default
 targetEntityType: node
 bundle: dolebas_transaction
@@ -22,44 +27,69 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_amount:
-    weight: 34
-    settings:
-      placeholder: ''
-    third_party_settings: {  }
-    type: number
-    region: content
-  field_currency:
-    weight: 33
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_status:
-    weight: 35
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_stripe_token:
-    weight: 32
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_transaction_action:
-    weight: 31
+  field_dolebas_trans_action:
+    weight: 40
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
     type: dolebas_transaction_field_widget
+    region: content
+  field_dolebas_trans_amount:
+    weight: 38
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_dolebas_trans_charge_token:
+    weight: 43
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dolebas_trans_currency:
+    weight: 39
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dolebas_trans_parent_ref:
+    weight: 44
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_dolebas_trans_processor:
+    weight: 45
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dolebas_trans_status:
+    weight: 42
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dolebas_trans_type:
+    weight: 41
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   path:
     type: path

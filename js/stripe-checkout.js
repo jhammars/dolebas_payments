@@ -9,22 +9,22 @@
                 token: function(token) {
 
                     getCsrfToken(function ( csrToken ) {
-                        PostNode(csrToken);
+                        postNode(csrToken);
                     });
 
-                    function PostNode(csrfToken) {
+                    function postNode(csrfToken) {
                         var body = {
                             "data": {
                                 "type": "node--dolebas_transaction",
                                 "attributes": {
                                     "title": "Dolebas Transaction",
                                     "uuid": drupalSettings.transaction_uuid,
-                                    "field_stripe_token": token.id,
-                                    "field_dolebas_parent_reference": drupalSettings.parent_nid,
-                                    "field_currency": {
-                                        "value": drupalSettings.currency
-                                    },
-                                    "field_amount": {
+                                    "field_dolebas_trans_charge_token": token.id,
+                                    "field_dolebas_trans_parent_ref": drupalSettings.parent_nid,
+                                    "field_dolebas_trans_currency": drupalSettings.currency,
+                                    "field_dolebas_trans_type": drupalSettings.transaction_type,
+                                    "field_dolebas_trans_processor": drupalSettings.processor,
+                                    "field_dolebas_trans_amount": {
                                         "value": drupalSettings.amount,
                                         "format": "number"
                                     }
@@ -51,29 +51,24 @@
                                     data: JSON.stringify(body),
                                     success: function (body) {
                                         console.log(body);
-                                        // Remove submit payment button from DOM after receiving payment confirmation
+                                        // Remove submit payment button from DOM after receiving positive payment confirmation
                                         document.getElementById( "customButton" ).remove();
-                                        // Insert payment confirmation message to DOM
-                                        document.getElementById( "ajax-target" ).innerHTML = "Payment " + body.data.attributes.field_status;
+                                        // Insert payment confirmation message into DOM
+                                        document.getElementById( "ajax-target" ).innerHTML = "Payment " + body.data.attributes.field_dolebas_trans_status;
                                     }
                                 });
                             }
                         });
 
                     }
-
                     console.log(token.id);
-                    // You can access the token ID with `token.id`.
-                    // Get the token ID to your server-side code for use.
                 }
             });
-
-            // console.log("after handler");
 
             document.getElementById('customButton').addEventListener('click', function(e) {
                 // Open Checkout with further options:
                 handler.open({
-                    name: 'Custom text1',
+                    name: 'Dolebas',
                     description: 'Custom text2',
                     zipCode: false,
                     currency: drupalSettings.currency,
@@ -90,7 +85,6 @@
         }
     };
 })(jQuery, Drupal);
-
 
 function getCsrfToken(callback) {
     jQuery

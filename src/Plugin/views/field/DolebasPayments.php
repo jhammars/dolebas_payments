@@ -32,32 +32,64 @@ class DolebasPayments extends FieldPluginBase {
    */
   public function render(ResultRow $values) {
 
-    // get nid from another field that must be included in the view
-    $nid = strip_tags($this->view->field['nid']->original_value);
+    // Get nid from parent node included in the view
+    $parent_nid = strip_tags($this->view->field['nid']->original_value);
 
-    $config = \Drupal::config('dolebas_payments.api_keys');
-    $stripe_api_pk = $config->get('stripe_api_pk');
+    // Configure purchase item
+    $transaction_type = 'upload_price';
+    $amount = 1234;
+    $currency = 'usd';
+    $processor = 'Stripe';
 
-    $transaction_uuid = \Drupal::service('uuid')->generate();
+    //$parent_nid = 128;
+    // Check if the item is already purchased
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'dolebas_transaction')
+      ->condition('field_dolebas_trans_type', 'upload_price')
+      ->condition('field_dolebas_trans_parent_ref.target_id', $parent_nid);
+    $existing_transactions = $query->execute();
+//    $existing_transactions = 0;
 
-//    $build['stripe_elements_block']['#type'] = 'inline_template';
-    $build['stripe_elements_block']['#theme'] = 'stripe_checkout';
-    $build['stripe_elements_block']['#attached'] = array(
-      'library' => array(
-        'dolebas_payments/stripe-checkout'
-      ),
-      'drupalSettings' => array(
-        'amount' => 1234,
-        'currency' => 'usd',
-        'stripe_publishable_key' => $stripe_api_pk,
-        'transaction_uuid' => $transaction_uuid,
-        'parent_nid' => $nid,
-      )
-    );
-    $build['#cache']['max-age'] = 0;
+    // If the item is not already purchased...
+    if (count($existing_transactions) == 0) {
 
-    // when the status field of the transaction node = succeeded, create a new revision
-    return $build;
+      // Get the api key
+      $config = \Drupal::config('dolebas_payments.api_keys');
+      $stripe_api_pk = $config->get('stripe_api_pk');
 
+      // Generate a random uuid
+      $transaction_uuid = \Drupal::service('uuid')->generate();
+
+      // Output the purchase button
+      $build['stripe_elements_block']['#theme'] = 'stripe_checkout';
+
+      $build['stripe_elements_block']['#attached'] = [
+        // Attach the .js library
+        'library' => [
+          'dolebas_payments/stripe-checkout'
+        ],
+        // Attach parameters to the .js library
+        'drupalSettings' => [
+          'amount' => $amount,
+          'currency' => $currency,
+          'stripe_publishable_key' => $stripe_api_pk,
+          'transaction_uuid' => $transaction_uuid,
+          'parent_nid' => $parent_nid,
+          'transaction_type' => $transaction_type,
+          'processor' => $processor,
+          // TODO: Add 'amount_paid' (calculates sum of amounts from parent_nid children)
+        ]
+      ];
+      $build['#cache']['max-age'] = 0;
+
+      return $build;
+
+    } else {
+      return array(
+        '#type' => 'markup',
+        // TODO: Get payment status from existing transaction and print it here
+        '#markup' => $this->t('Existing transactions present'),
+      );
+    }
   }
 }

@@ -5,7 +5,7 @@ dependencies:
     module:
       - dolebas_payments
 _core:
-  default_config_hash: lJ8sqUvZVwcUGbnw1EKIvrN3xPdfST7x5V6BAzW3z_I
+  default_config_hash: LMX3yAdhzUjRm9YVYMhXgVvgOqUje3Koio3_albrmzc
 name: 'Dolebas Transaction'
 type: dolebas_transaction
 description: 'Content type for transactions'

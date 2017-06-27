@@ -127,28 +127,31 @@ class DolebasTransactionFieldType extends FieldItemBase {
   public function preSave() {
     //print $this->get('value')->getValue();exit;
     //print'<pre>';print_r('hello');exit;
-    //parent::preSave();
+
     $entity = $this->getEntity();
 
-    $chargetoken = $entity->field_stripe_token->value;
-    $currency = $entity->field_currency->value;
-    $amount = $entity->field_amount->value;
+    $chargetoken = $entity->field_dolebas_trans_charge_token->value;
+    $currency = $entity->field_dolebas_trans_currency->value;
+    $amount = $entity->field_dolebas_trans_amount->value;
+    $processor = $entity->field_dolebas_trans_processor->value;
 
-    $config = \Drupal::config('dolebas_payments.api_keys');
-    $stripe_api_sk = $config->get('stripe_api_sk');
-    \Stripe\Stripe::setApiKey($stripe_api_sk);
+    // Check if there are any existing "upload_price" transactions with the same parent reference
+    $parent_nid = $entity->field_dolebas_parent_ref->target_id;
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'dolebas_transaction')
+      ->condition('field_dolebas_trans_type', 'upload_price')
+      ->condition('field_dolebas_trans_parent_ref.target_id', $parent_nid);
+    $existing_transactions = $query->execute();
 
-    $charge = \Stripe\Charge::create(array('amount' => $amount, 'currency' => $currency, 'source' => $chargetoken));
+    if (count($existing_transactions) == 0 && $processor == 'Stripe') {
+    //if (1 == 1) {
 
-    //$chargestatus = $charge->status;
+      $config = \Drupal::config('dolebas_payments.api_keys');
+      $stripe_api_sk = $config->get('stripe_api_sk');
+      \Stripe\Stripe::setApiKey($stripe_api_sk);
 
-    $entity->field_status->value = $charge->status;
-
+      $charge = \Stripe\Charge::create(array('amount' => $amount, 'currency' => $currency, 'source' => $chargetoken));
+      $entity->field_dolebas_trans_status->value = $charge->status;
+    }
   }
-
-//  public function postSave($update) {
-//
-//    //parent::postSave($update);
-//  }
-
 }
