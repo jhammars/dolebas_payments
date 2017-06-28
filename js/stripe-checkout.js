@@ -1,7 +1,6 @@
 (function ($, Drupal) {
-    Drupal.behaviors.wistiaUploadBehavior = {
+    Drupal.behaviors.stripeCheckoutBehavior = {
         attach: function (context, settings) {
-
             var handler = StripeCheckout.configure({
                 key: settings.stripe_publishable_key,
                 image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
