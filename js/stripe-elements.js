@@ -61,7 +61,7 @@ form.addEventListener('submit', function(event) {
             // Send the token to your server
             console.log(result.token.id);
             getCsrfToken(function (csrfToken) {
-                postNode(csrfToken, 'dolebas_transaction', result.token.id);
+                postNode(csrfToken, result.token.id);
             });
 
         }
@@ -69,18 +69,19 @@ form.addEventListener('submit', function(event) {
 });
 
 // Create transaction node with JSON API
-function postNode(csrfToken, node_type, stripe_token) {
+function postNode(csrfToken, stripe_token) {
     var body = {
         "data": {
-            "type": "node--" + node_type,
+            "type": "node--dolebas_transaction",
             "attributes": {
-                "title": "My test title",
+                "title": "stripe-elements.js",
                 "uuid": drupalSettings.transaction_uuid,
-                "field_stripe_token": stripe_token,
-                "field_currency": {
+                "field_dolebas_trans_processor": "Stripe",
+                "field_dolebas_trans_charge_token": stripe_token,
+                "field_dolebas_trans_currency": {
                     "value": drupalSettings.currency
                 },
-                "field_amount": {
+                "field_dolebas_trans_amount": {
                     "value": drupalSettings.amount,
                     "format": "number"
                 }
@@ -88,7 +89,7 @@ function postNode(csrfToken, node_type, stripe_token) {
         }
     };
     jQuery.ajax({
-        url: '/jsonapi/node/' + node_type + '?_format=json&token=' + csrfToken,
+        url: '/jsonapi/node/dolebas_transaction' + '?_format=json&token=' + csrfToken,
         method: 'POST',
         headers: {
             'Content-Type': 'application/vnd.api+json',
@@ -107,7 +108,7 @@ function postNode(csrfToken, node_type, stripe_token) {
                 data: JSON.stringify(body),
                 success: function (body) {
                     console.log(body);
-                    document.getElementById("ajax-target").innerHTML = "Payment " + body.data.attributes.field_status;
+                    document.getElementById("ajax-target").innerHTML = "Payment " + body.data.attributes.field_dolebas_trans_status;
                 }
             });
 
@@ -122,5 +123,6 @@ function getCsrfToken(callback) {
         .done(function (data) {
             var csrfToken = data;
             callback(csrfToken);
+//            callback(data);
         });
 }

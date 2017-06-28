@@ -22,6 +22,8 @@ class StripeElementsBlock extends BlockBase {
     $config = \Drupal::config('dolebas_payments.api_keys');
     $stripe_api_pk = $config->get('stripe_api_pk');
 
+    $transaction_uuid = \Drupal::service('uuid')->generate();
+
     $build['stripe_elements_block']['#type'] = 'inline_template';
     $build['stripe_elements_block']['#theme'] = 'stripe_elements';
     $build['stripe_elements_block']['#attached'] = array(
@@ -29,10 +31,11 @@ class StripeElementsBlock extends BlockBase {
         'dolebas_payments/stripe-elements-library'
       ),
       'drupalSettings' => array(
-        'node_type' => 'video',
+        'node_type' => 'dolebas_transaction',
         'amount' => 1111,
         'currency' => 'usd',
-        'stripe_publishable_key' => $stripe_api_pk
+        'stripe_publishable_key' => $stripe_api_pk,
+        'transaction_uuid' => $transaction_uuid,
       )
     );
     $build['#cache']['max-age'] = 0;
