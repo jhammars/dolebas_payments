@@ -2,4 +2,3 @@ services:
   dolebas_payments.general:
     class: Drupal\dolebas_payments\PaymentService
     arguments: ['@entity_type.manager']
-

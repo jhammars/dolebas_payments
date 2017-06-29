@@ -9,6 +9,9 @@ use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\TypedData\DataDefinition;
+use Drupal\Core\TypedData\DataDefinitionInterface;
+use Drupal\Core\TypedData\TypedDataInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Plugin implementation of the 'dolebas_transaction_field_type' field type.
@@ -125,9 +128,6 @@ class DolebasTransactionFieldType extends FieldItemBase {
 //  }
 
   public function preSave() {
-    //print $this->get('value')->getValue();exit;
-    //print'<pre>';print_r('hello');exit;
-
     $entity = $this->getEntity();
 
     $chargetoken = $entity->field_dolebas_trans_charge_token->value;
@@ -144,13 +144,7 @@ class DolebasTransactionFieldType extends FieldItemBase {
     $existing_transactions = $query->execute();
 
     if (count($existing_transactions) == 0 && $processor == 'Stripe') {
-    //if (1 == 1) {
-
-      $config = \Drupal::config('dolebas_payments.api_keys');
-      $stripe_api_sk = $config->get('stripe_api_sk');
-      \Stripe\Stripe::setApiKey($stripe_api_sk);
-
-      $charge = \Stripe\Charge::create(array('amount' => $amount, 'currency' => $currency, 'source' => $chargetoken));
+      $charge = \Drupal::service('dolebas_payments.general')->stripeCharge($amount, $currency, $chargetoken);
       $entity->field_dolebas_trans_status->value = $charge->status;
     }
   }

@@ -2,14 +2,13 @@
 
 namespace Drupal\dolebas_payments;
 use Drupal\Core\Entity\EntityTypeManager;
-use Stripe\Stripe;
 
 /**
  * Class PaymentService.
  *
  * @package Drupal\dolebas_payments
  */
-class PaymentService implements PaymentServiceInterface {
+class PaymentService {
 
   /**
    * Drupal\Core\Entity\EntityTypeManager definition.
@@ -19,36 +18,50 @@ class PaymentService implements PaymentServiceInterface {
   protected $entityTypeManager;
 
   /**
-   * Payment gateway type.
-   */
-  protected $paymentGatewayType;
-
-  /**
-   * Payment Gateway Handler.
-   */
-  protected $paymentGatewayHandler;
-
-  /**
    * Constructs a new PaymentService object.
    */
   public function __construct(EntityTypeManager $entity_type_manager) {
     $this->entityTypeManager = $entity_type_manager;
+    $this->setStripeApiKeys();
   }
 
-  function doPayment($paymentInfo) {
-
+  /**
+   * Get stripe api_keys settings and set api keys for \Stripe\Stripe object.
+   */
+  function setStripeApiKeys() {
+    $config = \Drupal::config('dolebas_payments.api_keys');
+    $stripe_api_sk = $config->get('stripe_api_sk');
+    \Stripe\Stripe::setApiKey($stripe_api_sk);
   }
 
-  function setAuthKeys($payment_gateway_type, array $auth_keys) {
-
+  /**
+   * Create Charge object using stripe token source.
+   *
+   * Amount to be charged.
+   * @param $amount
+   *
+   * Currency of the amount.
+   * @param $currency
+   *
+   * Stripe token, can represent Card.
+   * @param $token
+   *
+   * Returns \Stripe\Charge object
+   * @return \Stripe\Charge
+   */
+  function stripeCharge($amount, $currency, $token) {
+    return \Stripe\Charge::create(array('amount' => $amount, 'currency' => $currency, 'source' => $token));
   }
 
-  function setPaymentGatewayType($payment_gateway_type) {
-    $this->paymentGatewayType = $payment_gateway_type;
-  }
-
-  function getPaymentGatewayType() {
-    return $this->paymentGatewayType;
+  // Code under construction
+  function charge($processor, $amount, $currency, $token) {
+    switch ($processor) {
+      case 'stripe':
+        $this->stripeCharge($amount, $currency, $token);
+        break;
+      default:
+        break;
+    }
   }
 
 

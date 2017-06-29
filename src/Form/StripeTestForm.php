@@ -4,9 +4,12 @@ namespace Drupal\dolebas_payments\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\dolebas_payments\PaymentService;
+use Drupal\dolebas_payments\PaymentServiceInterface;
 use Stripe\Balance;
 use Stripe\BalanceTransaction;
 use Stripe\Stripe;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class StripeTestForm.
@@ -21,6 +24,13 @@ class StripeTestForm extends FormBase {
    */
   public function getFormId() {
     return 'stripe_test_form';
+  }
+
+  /**
+   * Class constructor.
+   */
+  public function __construct(PaymentService $paymentService) {
+    $this->paymentService = $paymentService;
   }
 
   /**
@@ -137,7 +147,13 @@ class StripeTestForm extends FormBase {
     $config = \Drupal::config('dolebas_payments.api_keys');
     $stripe_api_sk = $config->get('stripe_api_sk');
     \Stripe\Stripe::setApiKey($stripe_api_sk);
-
+    $card =  array(
+      "number" => "4242424242424242",
+      "exp_month" => 5,
+      "exp_year" => 2018,
+      "cvc" => "314"
+    );
+    //$this->paymentService->
     $token = \Stripe\Token::create(array(
       "card" => array(
         "number" => "4242424242424242",
@@ -146,10 +162,11 @@ class StripeTestForm extends FormBase {
         "cvc" => "314"
       )
     ));
+    $charge = $this->paymentService->stripeCharge($form_state->getValue('amount'), $form_state->getValue('currency'), $token);
     //print'<pre>';print_r($token->id);exit;
 
 
-    $charge = \Stripe\Charge::create(array('amount' => $form_state->getValue('amount'), 'currency' => $form_state->getValue('currency'), 'source' => $token));
+    //$charge = \Stripe\Charge::create(array('amount' => $form_state->getValue('amount'), 'currency' => $form_state->getValue('currency'), 'source' => $token));
 
     //$charge = \Stripe\Charge::create(array('amount' => $form_state->getValue('amount'), 'currency' => $form_state->getValue('currency'), 'source' => $token));
     //print '<pre>';print_r($charge);exit;
@@ -161,6 +178,17 @@ class StripeTestForm extends FormBase {
 
   private function stripe3dsecure($form, $form_state) {
     //@todo
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    // Instantiates this form class.
+    return new static(
+    // Load the service required to construct this class.
+      $container->get('dolebas_payments.general')
+    );
   }
 
 }

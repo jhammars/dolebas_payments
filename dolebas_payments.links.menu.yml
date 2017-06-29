@@ -1,7 +1,0 @@
-dolebas_payments.api_keys_config_form:
-  title: 'ApiKeysConfigForm'
-  route_name: dolebas_payments.api_keys_config_form
-  description: 'API keys config form'
-  parent: system.admin_config_system
-  weight: 99
-
