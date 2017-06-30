@@ -56,13 +56,14 @@ class PaymentService {
   // Code under construction
   function charge($processor, $amount, $currency, $token) {
     switch ($processor) {
-      case 'stripe':
+      case 'Stripe':
         $this->stripeCharge($amount, $currency, $token);
         break;
       default:
         break;
     }
   }
+
 
 
 }

@@ -1,11 +1,12 @@
 langcode: en
 status: true
 dependencies:
-  config:
-    - field.storage.node.field_dolebas_trans_action
-    - node.type.dolebas_transaction
-  module:
-    - dolebas_payments
+  enforced:
+    config:
+      - field.storage.node.field_dolebas_trans_action
+      - node.type.dolebas_transaction
+    module:
+      - dolebas_payments
 id: node.dolebas_transaction.field_dolebas_trans_action
 field_name: field_dolebas_trans_action
 entity_type: node
