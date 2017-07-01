@@ -54,7 +54,7 @@ class DolebasPayments extends FieldPluginBase {
     if (count($existing_transactions) == 0) {
 
       // Get the api key
-      $config = \Drupal::config('dolebas_payments.api_keys');
+      $config = \Drupal::config('dolebas_config.config');
       $stripe_api_pk = $config->get('stripe_api_pk');
 
       // Generate a random uuid

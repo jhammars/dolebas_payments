@@ -19,7 +19,7 @@ class StripeElementsBlock extends BlockBase {
    */
   public function build() {
 
-    $config = \Drupal::config('dolebas_payments.api_keys');
+    $config = \Drupal::config('dolebas_config.config');
     $stripe_api_pk = $config->get('stripe_api_pk');
 
     $transaction_uuid = \Drupal::service('uuid')->generate();

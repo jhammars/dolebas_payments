@@ -132,9 +132,22 @@ class TestChargeController extends ControllerBase {
 //
 //    return $build;
 
+    $query = \Drupal::entityQuery('node');
+    $group = $query->orConditionGroup()
+      ->condition('type', 'dolebas_transaction')
+      ->condition('type', 'dolebas_publisher')
+    ;
+    $query->condition($group);
+    $nids = $query->execute();
+    $nodes = \Drupal\node\Entity\Node::loadMultiple($nids);
+    foreach($nodes as $node) {
+      $node->delete();
+    }
+
+    drupal_set_message(''. print_r($nids, TRUE) .'');
           return array(
             '#type' => 'markup',
-            '#markup' => $this->t('hi'),
+            '#markup' => $this->t('hi ' . $nids),
           );
 
   }

@@ -15,5 +15,3 @@ Takes:
 Returns:
 - Payment Message
 - Payment Id
-
-test

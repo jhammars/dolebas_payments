@@ -144,7 +144,7 @@ class StripeTestForm extends FormBase {
   }
 
   private function stripeHostedTest(array &$form, FormStateInterface $form_state) {
-    $config = \Drupal::config('dolebas_payments.api_keys');
+    $config = \Drupal::config('dolebas_config.config');
     $stripe_api_sk = $config->get('stripe_api_sk');
     \Stripe\Stripe::setApiKey($stripe_api_sk);
     $card =  array(

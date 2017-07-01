@@ -29,7 +29,7 @@ class PaymentService {
    * Get stripe api_keys settings and set api keys for \Stripe\Stripe object.
    */
   function setStripeApiKeys() {
-    $config = \Drupal::config('dolebas_payments.api_keys');
+    $config = \Drupal::config('dolebas_config.config');
     $stripe_api_sk = $config->get('stripe_api_sk');
     \Stripe\Stripe::setApiKey($stripe_api_sk);
   }
