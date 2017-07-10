@@ -1,0 +1,7 @@
+{
+    "name": "dolebas/dolebas_payments",
+    "type": "drupal-custom-module",
+    "require": {
+        "stripe/stripe-php": "*"
+    }
+}
