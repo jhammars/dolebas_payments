@@ -2,6 +2,8 @@
     "name": "dolebas/dolebas_payments",
     "type": "drupal-custom-module",
     "require": {
-        "stripe/stripe-php": "*"
+        "stripe/stripe-php": "*",
+        "dolebas/dolebas_config": "*",
+        "drupal/jsonapi": "*"
     }
 }
