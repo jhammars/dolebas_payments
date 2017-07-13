@@ -1,4 +1,4 @@
-(function ($, Drupal) {
+(function ($, Drupal, document) {
     Drupal.behaviors.stripeCheckoutBehavior = {
         attach: function (context, settings) {
             var handler = StripeCheckout.configure({
@@ -6,6 +6,9 @@
                 image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
                 locale: 'auto',
                 token: function(token) {
+                    document.getElementById("customButton").remove();
+                    // Insert payment confirmation message into DOM
+                    document.getElementById( "ajax-target" ).innerHTML = "Processing Payment....";
 
                     getCsrfToken(function ( csrToken ) {
                         postNode(csrToken);
@@ -51,7 +54,7 @@
                                     success: function (body) {
                                         console.log(body);
                                         // Remove submit payment button from DOM after receiving positive payment confirmation
-                                        document.getElementById( "customButton" ).remove();
+                                        //document.getElementById( "customButton" ).remove();
                                         // Insert payment confirmation message into DOM
                                         document.getElementById( "ajax-target" ).innerHTML = "Payment " + body.data.attributes.field_dolebas_trans_status;
                                     }
@@ -83,7 +86,7 @@
 
         }
     };
-})(jQuery, Drupal);
+})(jQuery, Drupal, document);
 
 function getCsrfToken(callback) {
     jQuery
