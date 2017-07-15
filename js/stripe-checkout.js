@@ -23,13 +23,8 @@
                                     "uuid": drupalSettings.transaction_uuid,
                                     "field_dolebas_trans_charge_token": token.id,
                                     "field_dolebas_trans_parent_ref": drupalSettings.parent_nid,
-                                    "field_dolebas_trans_currency": drupalSettings.currency,
                                     "field_dolebas_trans_type": drupalSettings.transaction_type,
-                                    "field_dolebas_trans_processor": drupalSettings.processor,
-                                    "field_dolebas_trans_amount": {
-                                        "value": drupalSettings.amount,
-                                        "format": "number"
-                                    }
+                                    "field_dolebas_trans_processor": drupalSettings.processor
                                 }
                             }
                         };
@@ -53,8 +48,6 @@
                                     data: JSON.stringify(body),
                                     success: function (body) {
                                         console.log(body);
-                                        // Remove submit payment button from DOM after receiving positive payment confirmation
-                                        //document.getElementById( "customButton" ).remove();
                                         // Insert payment confirmation message into DOM
                                         document.getElementById( "ajax-target" ).innerHTML = "Payment " + body.data.attributes.field_dolebas_trans_status;
                                     }
@@ -73,8 +66,8 @@
                     name: 'Dolebas',
                     description: 'Custom text2',
                     zipCode: false,
-                    currency: drupalSettings.currency,
-                    amount: drupalSettings.amount
+                    currency: drupalSettings.currency_for_display,
+                    amount: drupalSettings.amount_for_display
                 });
                 e.preventDefault();
             });
@@ -91,8 +84,7 @@
 function getCsrfToken(callback) {
     jQuery
         .get(Drupal.url('session/token'))
-        .done(function (data) {
-            var csrfToken = data;
+        .done(function (csrfToken) {
             callback(csrfToken);
         });
 }

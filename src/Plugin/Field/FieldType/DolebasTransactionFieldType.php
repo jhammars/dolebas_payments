@@ -67,72 +67,14 @@ class DolebasTransactionFieldType extends FieldItemBase {
     return $schema;
   }
 
-//  /**
-//   * {@inheritdoc}
-//   */
-//  public function getConstraints() {
-//    $constraints = parent::getConstraints();
-//
-//    if ($max_length = $this->getSetting('max_length')) {
-//      $constraint_manager = \Drupal::typedDataManager()->getValidationConstraintManager();
-//      $constraints[] = $constraint_manager->create('ComplexData', [
-//        'value' => [
-//          'Length' => [
-//            'max' => $max_length,
-//            'maxMessage' => t('%name: may not be longer than @max characters.', [
-//              '%name' => $this->getFieldDefinition()->getLabel(),
-//              '@max' => $max_length
-//            ]),
-//          ],
-//        ],
-//      ]);
-//    }
-//
-//    return $constraints;
-//  }
-//
-//  /**
-//   * {@inheritdoc}
-//   */
-//  public static function generateSampleValue(FieldDefinitionInterface $field_definition) {
-//    $random = new Random();
-//    $values['value'] = $random->word(mt_rand(1, $field_definition->getSetting('max_length')));
-//    return $values;
-//  }
-//
-//  /**
-//   * {@inheritdoc}
-//   */
-//  public function storageSettingsForm(array &$form, FormStateInterface $form_state, $has_data) {
-//    $elements = [];
-//
-//    $elements['max_length'] = [
-//      '#type' => 'number',
-//      '#title' => t('Maximum length'),
-//      '#default_value' => $this->getSetting('max_length'),
-//      '#required' => TRUE,
-//      '#description' => t('The maximum length of the field in characters.'),
-//      '#min' => 1,
-//      '#disabled' => $has_data,
-//    ];
-//
-//    return $elements;
-//  }
-
-//  /**
-//   * {@inheritdoc}
-//   */
-//  public function isEmpty() {
-//    $value = $this->get('value')->getValue();
-//    return $value === NULL || $value === '';
-//  }
-
   public function preSave() {
     $entity = $this->getEntity();
 
     $chargetoken = $entity->field_dolebas_trans_charge_token->value;
-    $currency = $entity->field_dolebas_trans_currency->value;
-    $amount = $entity->field_dolebas_trans_amount->value;
+    $currency = \Drupal::service('dolebas_payments.pricing')->getCurrency();
+    $amount = \Drupal::service('dolebas_payments.pricing')->getPrice();
+    $entity->field_dolebas_trans_amount->value = $amount;
+    
     $processor = $entity->field_dolebas_trans_processor->value;
 
     // Check if there are any existing "upload_price" transactions with the same parent reference
@@ -143,6 +85,7 @@ class DolebasTransactionFieldType extends FieldItemBase {
       ->condition('field_dolebas_trans_parent_ref.target_id', $parent_nid);
     $existing_transactions = $query->execute();
 
+    $entity->field_dolebas_trans_status->value = $entity->field_dolebas_trans_status->value;
     if (count($existing_transactions) == 0 && $processor == 'Stripe') {
       $charge = \Drupal::service('dolebas_payments.general')->stripeCharge($amount, $currency, $chargetoken);
       $entity->field_dolebas_trans_status->value = $charge->status;

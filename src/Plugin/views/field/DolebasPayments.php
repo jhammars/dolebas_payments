@@ -37,19 +37,16 @@ class DolebasPayments extends FieldPluginBase {
 
     // Configure purchase item
     $transaction_type = 'upload_price';
-    //$amount = 1234;
-    $amount = \Drupal::service('dolebas_payments.pricing')->getPrice();
-    $currency = 'usd';
+    $amount_for_display = \Drupal::service('dolebas_payments.pricing')->getPrice();
+    $currency_for_display = \Drupal::service('dolebas_payments.pricing')->getCurrency();
     $processor = 'Stripe';
 
-    //$parent_nid = 128;
     // Check if the item is already purchased
     $query = \Drupal::entityQuery('node')
       ->condition('type', 'dolebas_transaction')
       ->condition('field_dolebas_trans_type', 'upload_price')
       ->condition('field_dolebas_trans_parent_ref.target_id', $parent_nid);
     $existing_transactions = $query->execute();
-//    $existing_transactions = 0;
 
     // If the item is not already purchased...
     if (count($existing_transactions) == 0) {
@@ -71,14 +68,13 @@ class DolebasPayments extends FieldPluginBase {
         ],
         // Attach parameters to the .js library
         'drupalSettings' => [
-          'amount' => $amount,
-          'currency' => $currency,
+          'amount_for_display' => $amount_for_display,
+          'currency_for_display' => $currency_for_display,
           'stripe_publishable_key' => $stripe_api_pk,
           'transaction_uuid' => $transaction_uuid,
           'parent_nid' => $parent_nid,
           'transaction_type' => $transaction_type,
           'processor' => $processor,
-          // TODO: Add 'amount_paid' (calculates sum of amounts from parent_nid children)
         ]
       ];
       $build['#cache']['max-age'] = 0;
