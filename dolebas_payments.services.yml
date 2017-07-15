@@ -2,3 +2,6 @@ services:
   dolebas_payments.general:
     class: Drupal\dolebas_payments\PaymentService
     arguments: ['@entity_type.manager']
+  dolebas_payments.pricing:
+    class: Drupal\dolebas_payments\PricingService
+    arguments: ['@entity_type.manager']    

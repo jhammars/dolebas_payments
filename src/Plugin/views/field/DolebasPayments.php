@@ -37,7 +37,8 @@ class DolebasPayments extends FieldPluginBase {
 
     // Configure purchase item
     $transaction_type = 'upload_price';
-    $amount = 1234;
+    //$amount = 1234;
+    $amount = \Drupal::service('dolebas_payments.pricing')->getPrice();
     $currency = 'usd';
     $processor = 'Stripe';
 
