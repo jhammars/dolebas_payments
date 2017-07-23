@@ -12,7 +12,8 @@ use Drupal\Core\TypedData\DataDefinition;
 use Drupal\Core\TypedData\DataDefinitionInterface;
 use Drupal\Core\TypedData\TypedDataInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
+use Drupal\node\Entity\Node;
+      
 /**
  * Plugin implementation of the 'dolebas_transaction_field_type' field type.
  *
@@ -89,6 +90,17 @@ class DolebasTransactionFieldType extends FieldItemBase {
     if (count($existing_transactions) == 0 && $processor == 'Stripe') {
       $charge = \Drupal::service('dolebas_payments.general')->stripeCharge($amount, $currency, $chargetoken);
       $entity->field_dolebas_trans_status->value = $charge->status;
+      
+      $uuid = \Drupal::service('uuid')->generate();
+      $node = Node::create(array(
+          'type' => 'dolebas_user_email',
+          'uuid' => $uuid,
+          'title' => $uuid,
+          'field_dolebas_user_email' => $charge->source->name,
+          'field_dolebas_user_email_source' => 'StripeChargeObject',
+      ));
+      $node->save();
+      
     }
   }
 }
