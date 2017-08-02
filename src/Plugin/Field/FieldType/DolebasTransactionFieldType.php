@@ -97,7 +97,7 @@ class DolebasTransactionFieldType extends FieldItemBase {
           'uuid' => $uuid,
           'title' => $uuid,
           'field_dolebas_user_email' => $charge->source->name,
-          'field_dolebas_user_email_source' => 'StripeChargeObject',
+          'field_dolebas_user_email_source' => $entity->uuid
       ));
       $node->save();
       

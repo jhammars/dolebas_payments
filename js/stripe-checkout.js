@@ -19,7 +19,7 @@
                             "data": {
                                 "type": "node--dolebas_transaction",
                                 "attributes": {
-                                    "title": "Dolebas Transaction",
+                                    "title": drupalSettings.transaction_uuid,
                                     "uuid": drupalSettings.transaction_uuid,
                                     "field_dolebas_trans_charge_token": token.id,
                                     "field_dolebas_trans_parent_ref": drupalSettings.parent_nid,
