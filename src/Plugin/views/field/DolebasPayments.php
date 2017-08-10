@@ -59,9 +59,9 @@ class DolebasPayments extends FieldPluginBase {
       $transaction_uuid = \Drupal::service('uuid')->generate();
 
       // Output the purchase button
-      $build['stripe_elements_block']['#theme'] = 'stripe_checkout';
+      $build['stripe_checkout']['#theme'] = 'stripe_checkout';
 
-      $build['stripe_elements_block']['#attached'] = [
+      $build['stripe_checkout']['#attached'] = [
         // Attach the .js library
         'library' => [
           'dolebas_payments/stripe-checkout'
