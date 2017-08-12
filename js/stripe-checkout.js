@@ -64,7 +64,7 @@
                 // Open Checkout with further options:
                 handler.open({
                     name: 'Dolebas',
-                    description: 'Custom text2',
+                    description: '1 month video storage',
                     zipCode: false,
                     currency: drupalSettings.currency_for_display,
                     amount: drupalSettings.amount_for_display

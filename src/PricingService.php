@@ -25,7 +25,7 @@ class PricingService {
   }
 
   function getPrice() {
-    return 1234;
+    return 100;
   }
   
   function getCurrency() {
