@@ -34,6 +34,7 @@ class DolebasPayments extends FieldPluginBase {
 
     // Get nid from parent node included in the view
     $parent_nid = strip_tags($this->view->field['nid']->original_value);
+    $div_uuid = strip_tags($this->view->field['uuid']->original_value);
 
     // Configure purchase item
     $transaction_type = 'upload_price';
@@ -60,6 +61,7 @@ class DolebasPayments extends FieldPluginBase {
 
       // Output the purchase button
       $build['stripe_checkout']['#theme'] = 'stripe_checkout';
+      $build['stripe_checkout']['#div_uuid'] = $div_uuid;
 
       $build['stripe_checkout']['#attached'] = [
         // Attach the .js library
@@ -75,6 +77,7 @@ class DolebasPayments extends FieldPluginBase {
           'parent_nid' => $parent_nid,
           'transaction_type' => $transaction_type,
           'processor' => $processor,
+          'div_uuid' => $div_uuid
         ]
       ];
       $build['#cache']['max-age'] = 0;

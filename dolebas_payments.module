@@ -8,7 +8,7 @@ function dolebas_payments_theme() {
 
   $theme['stripe_checkout'] = array(
     'variables' => array(
-      'var1' => NULL,
+      'div_uuid' => NULL,
     ),
     'template' => 'stripe_checkout',
   );
