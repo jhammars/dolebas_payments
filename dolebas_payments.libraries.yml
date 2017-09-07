@@ -1,5 +1,8 @@
 stripe-checkout:
   header: false
+  css:
+    theme:
+      css/stripe-checkout.css: {}
   js:
     https://checkout.stripe.com/checkout.js:
       type: external
